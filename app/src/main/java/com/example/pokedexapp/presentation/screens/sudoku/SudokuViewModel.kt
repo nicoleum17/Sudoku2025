@@ -13,18 +13,32 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+private val EMPTY_SUDOKU_BOARD: List<List<String>> =
+    List(9) { List(9) { "0" } }
+
 @HiltViewModel
 class SudokuViewModel
     @Inject
     constructor(
         private val getSudokuUseCase: GetSudokuUseCase,
     ) : ViewModel() {
-        private val _uiState = MutableStateFlow(SudokuUiState())
+        private val _uiState =
+            MutableStateFlow(
+                SudokuUiState(
+                    puzzle = EMPTY_SUDOKU_BOARD,
+                    solution = EMPTY_SUDOKU_BOARD,
+                ),
+            )
         val uiState: StateFlow<SudokuUiState> = _uiState.asStateFlow()
 
         init {
             loadSudokuBoard()
         }
+
+        private fun List<List<Int>>.toStringBoard(): List<List<String>> =
+            this.map { row ->
+                row.map { it.toString() }
+            }
 
         private fun loadSudokuBoard() {
             viewModelScope.launch {
@@ -37,8 +51,8 @@ class SudokuViewModel
                                 )
                             is Result.Success ->
                                 state.copy(
-                                    puzzle = result.data.puzzle,
-                                    solution = result.data.solution,
+                                    puzzle = result.data.puzzle.toStringBoard(),
+                                    solution = result.data.solution.toStringBoard(),
                                     isLoading = false,
                                     error = null,
                                 )

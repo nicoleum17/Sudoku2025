@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun SudokuGrid(
-    board: List<List<Int>>,
+    board: List<List<String>>,
     onCellChange: (row: Int, col: Int, value: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -28,13 +28,14 @@ fun SudokuGrid(
                 .padding(8.dp)
                 .border(3.dp, Color.Black),
     ) {
-        (0 until 3).forEach { row ->
+        (0 until 9).forEach { row ->
             Row(
                 Modifier.weight(1f),
             ) {
-                (0 until 3).forEach { col ->
-                    val cellValue = board[row][col].let { if (it == 0) "" else it.toString() }
-                    val isInitial = board[row][col] != 0
+                (0 until 9).forEach { col ->
+                    val cellString = board[row][col]
+                    val cellValue = if (cellString == "0") "" else cellString
+                    val isInitial = cellString != "0"
 
                     Box(
                         modifier =

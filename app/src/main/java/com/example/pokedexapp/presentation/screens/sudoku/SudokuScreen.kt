@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.pokedexapp.presentation.ui.components.SudokuGrid
+import kotlin.apply
 
 /*
 val initialSudokuBoard =
@@ -64,7 +65,7 @@ fun SudokuScreen(
     val isLoading = false
 
     val onCellChange: (row: Int, col: Int, value: String) -> Unit = { row, col, value ->
-        val newValue = value.toIntOrNull() ?: 0
+        val newValue = if (value.length > 1) value.takeLast(1) else value
 
         boardState =
             boardState.toMutableList().apply {
