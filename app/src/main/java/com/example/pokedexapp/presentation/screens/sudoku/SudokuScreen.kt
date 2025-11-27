@@ -129,9 +129,9 @@ fun SudokuScreen(
                         contentAlignment = Alignment.Center,
                     ) {
                         Text(
-                            text = "Nueva\nPartida",
+                            text = "Nueva Partida",
                             style = MaterialTheme.typography.titleLarge.copy(fontSize = 12.sp),
-                            color = Color.Blue,
+                            color = Color.White,
                             textAlign = TextAlign.Center,
                         )
                     }
